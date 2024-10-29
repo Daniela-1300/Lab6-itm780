@@ -1,0 +1,117 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Form</title>
+    <script>
+        // This script handles form submission and local storage.
+        // When the "Submit" button is clicked, it stores the form data in local storage.
+        // When the "Clear" button is clicked, it resets all input fields in the form.
+        // Js will be written in this page to keep it separated from home page code.
+        
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Gather form data
+            const businessName = document.getElementById('business_name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const contactMethod = document.querySelector('input[name="business_type"]:checked')?.value;
+            const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(el => el.value);
+            const message = document.getElementById('message').value;
+            const inquirySubject = document.getElementById('inquiry_subject').value;
+
+            // Store data in local storage
+            localStorage.setItem('businessName', businessName);
+            localStorage.setItem('email', email);
+            localStorage.setItem('phone', phone);
+            localStorage.setItem('contactMethod', contactMethod);
+            localStorage.setItem('services', JSON.stringify(services)); // Store as JSON string
+            localStorage.setItem('message', message);
+            localStorage.setItem('inquirySubject', inquirySubject);
+
+            alert('Form data has been submitted and stored in local storage.');
+        }
+
+        function handleClear() {
+            // Clear all input fields in the form
+            document.getElementById('business_name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.querySelector('input[name="business_type"]:checked')?.checked = false;
+            document.querySelectorAll('input[name="services"]:checked').forEach(el => el.checked = false);
+            document.getElementById('message').value = '';
+            document.getElementById('inquiry_subject').selectedIndex = 0; // Reset dropdown
+        }
+    </script>
+</head>
+<body>
+    <h1>Business Inquiry Form</h1>
+    <form onsubmit="handleSubmit(event)" onreset="handleClear()">
+
+        <!-- Single text field -->
+        <label for="business_name">Business Name:</label>
+        <input type="text" id="business_name" name="business_name" required><br><br>
+
+        <!-- Email field -->
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <!-- Phone number field -->
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone"><br><br>
+
+        <!-- Radio buttons -->
+        <fieldset>
+            <legend>Business Type:</legend>
+            <label>
+                <input type="radio" name="business_type" value="startup" required>
+                Startup
+            </label><br>
+            <label>
+                <input type="radio" name="business_type" value="small_business">
+                Small Business
+            </label><br>
+            <label>
+                <input type="radio" name="business_type" value="enterprise">
+                Enterprise
+            </label>
+        </fieldset><br>
+
+        <!-- Checkboxes -->
+        <fieldset>
+            <legend>Services Interested In:</legend>
+            <label>
+                <input type="checkbox" name="services" value="consulting">
+                Consulting
+            </label><br>
+            <label>
+                <input type="checkbox" name="services" value="marketing">
+                Marketing
+            </label><br>
+            <label>
+                <input type="checkbox" name="services" value="development">
+                Development
+            </label>
+        </fieldset><br>
+
+        <!-- Multiple text field (textarea) -->
+        <label for="message">Additional Information:</label><br>
+        <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+
+        <!-- Dropdown select -->
+        <label for="inquiry_subject">Inquiry Subject:</label>
+        <select id="inquiry_subject" name="inquiry_subject" required>
+            <option value="">Select a subject</option>
+            <option value="collaboration">Collaboration</option>
+            <option value="partnership">Partnership</option>
+            <option value="general">General Inquiry</option>
+        </select><br><br>
+
+        <!-- Submit and Clear buttons -->
+        <button type="submit">Submit</button>
+        <button type="reset">Clear</button>
+        <a href="index.html">Home</a>
+    </form>
+</body>
+</html>
